@@ -35,7 +35,6 @@ class CardDataAdaptor extends RecyclerView.Adapter<CardDataAdaptor.ViewHolder> {
         return list.size();
     }
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView title;

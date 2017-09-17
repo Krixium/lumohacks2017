@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
     private CardDataAdaptor adapter;
+    private ItemTouchHelper itemTouchHelper;
 
     // List of data for CardViews
     private List<CardData> data_list;
@@ -37,31 +38,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Reference tool bar`
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // Reference floating button and assign on click listener
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        // Makes the Navigation Drawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        // Set Layout type
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         // Creating the list of data
         data_list = new ArrayList<>();
@@ -77,8 +53,33 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
         // End of DON'T TOUCH
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeCallback);
+        itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        // Reference tool bar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Reference floating button and assign on click listener
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, InputActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Makes the Navigation Drawer
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        // Set Layout type
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     ItemTouchHelper.SimpleCallback recyclerViewSwipeCallback = new ItemTouchHelper.SimpleCallback(0,
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity
             final int position = viewHolder.getAdapterPosition();
             final CardData card = data_list.get(position);
 
+            data_list.remove(position);
             adapter.notifyItemRemoved(position);
 
             Snackbar.make(recyclerView, card.getTextTitle() + " was removed.", Snackbar.LENGTH_LONG)
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
                             // Re-add the card
+                            data_list.add(card);
                             Toast.makeText(MainActivity.this,
                                     "title=" + card.getTextTitle() + ", desc=" + card.getTextDesc(),
                                     Toast.LENGTH_LONG).show();
@@ -173,5 +176,10 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < 10; i++) {
            data_list.add(new CardData("This really is a hackaton " + i, "la de fking daaaaaaaaaaaaaaaaaaaaaaaaaaaaa " + i));
         }
+    }
+
+    public void addCardData(CardData data) {
+        data_list.add(data);
+        adapter.notifyDataSetChanged();
     }
 }
