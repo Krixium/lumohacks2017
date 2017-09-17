@@ -10,6 +10,6 @@ public class BullyTopic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bully_topic);
 
-        getSupportActionBar().setSubtitle("Bullying");
+        getSupportActionBar().setSubtitle(R.string.topicMenuBully);
     }
 }

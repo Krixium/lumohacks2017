@@ -6,14 +6,6 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="sex_button">Gender and Sexuality</string>
-    <string name="drug_button">Drugs</string>
-    <string name="bully_button">Bullying</string>
-    <string name="rel_button">Healthy Relationships</string>
-
-    <string name="title_activity_drug_topic">DrugTopic</string>
-    <string name="title_activity_bully_topic">BullyTopic</string>
-
     <string name="bully_body">Information about bullying here</string>
     <string name="drug_body">Information about drugs here</string>
     <string name="rel_body">Information about healthy relationships here</string>
@@ -29,4 +21,9 @@
     <string name="inputFieldDesc">Description</string>
 
     <string name="buttonAdd">Add</string>
+
+    <string name="topicMenuSex">Gender and Sexuality</string>
+    <string name="topicMenuDrugs">Drugs</string>
+    <string name="topicMenuRel">Healthy Relationships</string>
+    <string name="topicMenuBully">Bullying</string>
 </resources>

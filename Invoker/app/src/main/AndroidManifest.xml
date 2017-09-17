@@ -26,23 +26,19 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".TopicsMenu"
-            android:label="Topics"
+            android:label="@string/menuTopics"
             android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".SexTopic"
-            android:label="Topics"
+        <activity android:name=".SexTopic"
+            android:label="@string/topicMenuSex"
             android:parentActivityName=".TopicsMenu" />
-        <activity
-            android:name=".RelTopic"
-            android:label="Topics"
+        <activity android:name=".RelTopic"
+            android:label="@string/topicMenuRel"
             android:parentActivityName=".TopicsMenu" />
-        <activity
-            android:name=".DrugTopic"
-            android:label="Topics"
+        <activity android:name=".DrugTopic"
+            android:label="@string/topicMenuDrugs"
             android:parentActivityName=".TopicsMenu" />
-        <activity
-            android:name=".BullyTopic"
-            android:label="Topics"
+        <activity android:name=".BullyTopic"
+            android:label="@string/topicMenuBully"
             android:parentActivityName=".TopicsMenu" />
         <activity
             android:name=".InputActivity"

@@ -10,6 +10,6 @@ public class RelTopic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rel_topic);
 
-        getSupportActionBar().setSubtitle("Healthy Relationships");
+        getSupportActionBar().setSubtitle(R.string.topicMenuRel);
     }
 }
