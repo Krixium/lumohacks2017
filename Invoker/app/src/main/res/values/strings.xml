@@ -24,4 +24,9 @@
     <string name="menuTopics">Topics</string>
     <string name="menuSettings">Settings</string>
     <string name="menuFeedback">Feedback</string>
+
+    <string name="inputFieldTitle">Title</string>
+    <string name="inputFieldDesc">Description</string>
+
+    <string name="buttonAdd">Add</string>
 </resources>
