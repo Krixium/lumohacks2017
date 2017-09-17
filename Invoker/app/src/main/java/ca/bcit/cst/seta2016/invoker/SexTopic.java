@@ -10,6 +10,6 @@ public class SexTopic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sex_topic);
 
-        getSupportActionBar().setSubtitle("Gender and Sexuality");
+        getSupportActionBar().setSubtitle(R.string.topicMenuSex);
     }
 }
