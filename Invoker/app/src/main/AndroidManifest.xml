@@ -21,6 +21,22 @@
         </activity>
         <activity android:name=".CardActivity" />
         <activity android:name=".CalendarActivity"></activity>
+        <activity
+            android:name=".TopicsMenu"
+            android:label="Topics"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".SexTopic"
+            android:label="Topics"
+            android:parentActivityName=".TopicsMenu"/>
+        <activity android:name=".RelTopic"
+            android:label="Topics"
+            android:parentActivityName=".TopicsMenu"/>
+        <activity android:name=".DrugTopic"
+            android:label="Topics"
+            android:parentActivityName=".TopicsMenu"/>
+        <activity android:name=".BullyTopic"
+            android:label="Topics"
+            android:parentActivityName=".TopicsMenu"></activity>
     </application>
 
 </manifest>
