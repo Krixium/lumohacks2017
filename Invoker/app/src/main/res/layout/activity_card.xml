@@ -27,22 +27,32 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp">
 
-        <TextView
-            android:id="@+id/cardTextTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/cardTextDisc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/cardImageView"
-            android:layout_toEndOf="@+id/cardImageView"
-            android:layout_weight="1"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="186dp"
-            tools:layout_editor_absoluteY="190dp" />
+            <TextView
+                android:id="@+id/cardTextTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/cardTextDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp" />
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
 
