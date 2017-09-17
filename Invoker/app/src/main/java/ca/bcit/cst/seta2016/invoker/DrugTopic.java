@@ -11,6 +11,6 @@ public class DrugTopic extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drug_topic);
 
-        getSupportActionBar().setSubtitle("Drugs");
+        getSupportActionBar().setSubtitle(R.string.topicMenuDrugs);
     }
 }
