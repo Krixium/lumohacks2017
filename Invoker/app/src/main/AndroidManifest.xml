@@ -19,7 +19,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CardActivity"></activity>
+        <activity android:name=".CardActivity" />
+        <activity
+            android:name=".CalendarActivity"
+            android:label="Calendar"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".TopicsMenu"
+            android:label="@string/menuTopics"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".DrugInfo"
+            android:label="@string/topicMenuDrugs"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".RelInfo"
+            android:label="@string/topicMenuRel"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SexInfo"
+            android:label="@string/topicMenuSex"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".BullyInfo"
+            android:label="@string/topicMenuBully"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity" />
     </application>
-
 </manifest>

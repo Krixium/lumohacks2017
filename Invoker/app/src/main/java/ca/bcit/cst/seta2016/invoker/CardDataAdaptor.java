@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+class CardDataAdaptor extends RecyclerView.Adapter<CardDataAdaptor.ViewHolder> {
     private Context context;
     private List<CardData> list;
 
-    public CustomAdapter(Context context, List<CardData> list) {
+    public CardDataAdaptor(Context context, List<CardData> list) {
         this.context = context;
         this.list = list;
     }
@@ -26,6 +26,7 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.title.setText(list.get(position).getTextTitle());
         holder.description.setText(list.get(position).getTextDesc());
     }
 
@@ -33,7 +34,6 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     public int getItemCount() {
         return list.size();
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -43,7 +43,7 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.cardTextTitle);
-            description = itemView.findViewById(R.id.cardTextDisc);
+            description = itemView.findViewById(R.id.cardTextDesc);
         }
     }
 }
