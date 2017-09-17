@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -74,7 +76,40 @@ public class MainActivity extends AppCompatActivity
         adapter = new CardDataAdaptor(this, data_list);
         recyclerView.setAdapter(adapter);
         // End of DON'T TOUCH
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
+
+    ItemTouchHelper.SimpleCallback recyclerViewSwipeCallback = new ItemTouchHelper.SimpleCallback(0,
+            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            // not used
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            //Remove swiped item from list and notify the RecyclerView
+            final int position = viewHolder.getAdapterPosition();
+            final CardData card = data_list.get(position);
+
+            adapter.notifyItemRemoved(position);
+
+            Snackbar.make(recyclerView, card.getTextTitle() + " was removed.", Snackbar.LENGTH_LONG)
+                    .setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // Re-add the card
+                            Toast.makeText(MainActivity.this,
+                                    "title=" + card.getTextTitle() + ", desc=" + card.getTextDesc(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }).show();
+        }
+    };
 
     @Override
     public void onBackPressed() {
