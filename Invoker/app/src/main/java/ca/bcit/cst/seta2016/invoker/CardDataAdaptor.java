@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+class CardDataAdaptor extends RecyclerView.Adapter<CardDataAdaptor.ViewHolder> {
     private Context context;
     private List<CardData> list;
 
-    public CustomAdapter(Context context, List<CardData> list) {
+    public CardDataAdaptor(Context context, List<CardData> list) {
         this.context = context;
         this.list = list;
     }

@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
     // DON'T TOUCH
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
-    private CustomAdapter adapter;
+    private CardDataAdaptor adapter;
 
     // List of data for CardViews
     private List<CardData> data_list;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new CustomAdapter(this, data_list);
+        adapter = new CardDataAdaptor(this, data_list);
         recyclerView.setAdapter(adapter);
         // End of DON'T TOUCH
     }
