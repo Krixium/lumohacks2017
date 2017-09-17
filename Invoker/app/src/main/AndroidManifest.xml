@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CardActivity" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".FeedbackActivity"></activity>
     </application>
 
 </manifest>
