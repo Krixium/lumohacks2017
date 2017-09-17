@@ -3,6 +3,8 @@ package ca.bcit.cst.seta2016.invoker;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +15,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    // DON'T TOUCH
+    private RecyclerView recyclerView;
+    private GridLayoutManager gridLayoutManager;
+    private CustomAdapter adapter;
+
+    // List of data for CardViews
+    private List<CardData> data_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,20 @@ public class MainActivity extends AppCompatActivity
         // Set Layout type
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Creating the list of data
+        data_list = new ArrayList<>();
+        create_data();  // Change this function later
+
+        // DON'T TOUCH
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        gridLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        adapter = new CustomAdapter(this, data_list);
+        recyclerView.setAdapter(adapter);
+        // End of DON'T TOUCH
     }
 
     @Override
@@ -102,5 +129,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void create_data() {
+        // Add and remove data here
+        for (int i = 0; i < 10; i++) {
+           data_list.add(new CardData("This really is a hackaton " + i, "la de fking daaaaaaaaaaaaaaaaaaaaaaaaaaaaa " + i));
+        }
     }
 }
