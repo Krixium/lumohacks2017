@@ -2,11 +2,13 @@ package ca.bcit.cst.seta2016.invoker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity
     private ItemTouchHelper itemTouchHelper;
 
     // List of data for CardViews
-    private List<CardData> data_list;
+    private ArrayList<CardData> data_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,6 @@ public class MainActivity extends AppCompatActivity
 
         // Creating the list of data
         data_list = new ArrayList<>();
-        create_data();  // Change this function later
 
         // DON'T TOUCH
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -171,11 +172,28 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void create_data() {
-        // Add and remove data here
-        for (int i = 0; i < 10; i++) {
-           data_list.add(new CardData("This really is a hackaton " + i, "la de fking daaaaaaaaaaaaaaaaaaaaaaaaaaaaa " + i));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("title") && intent.hasExtra("desc")) {
+            String title = intent.getStringExtra("title");
+            String desc = intent.getStringExtra("desc");
+            addCardData(new CardData(title, desc));
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("list", data_list);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle inState) {
+        super.onRestoreInstanceState(inState);
+        data_list = inState.getParcelableArrayList("list");
     }
 
     public void addCardData(CardData data) {
