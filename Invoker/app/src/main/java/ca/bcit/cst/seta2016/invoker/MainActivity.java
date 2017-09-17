@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity
             intent = new Intent(this, CalendarActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_topic) {
+            intent = new Intent(this, TopicsMenu.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_setting) {
 
