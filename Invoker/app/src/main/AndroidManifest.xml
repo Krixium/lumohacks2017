@@ -51,12 +51,10 @@
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".FeedbackActivity"
             android:label="Feedback"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".InputActivity"
