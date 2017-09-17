@@ -1,5 +1,4 @@
 # Invoker
-# lumohacks2017
 
 Invoker is a project built for [Lumohacks 2017](https://www.lumohacks.com)
 
