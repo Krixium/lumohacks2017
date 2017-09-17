@@ -16,25 +16,25 @@ public class TopicsMenu extends AppCompatActivity
 
     public void toSex(View view)
     {
-        Intent intent = new Intent(this, SexTopic.class);
+        Intent intent = new Intent(this, SexInfo.class);
         startActivity(intent);
     }
 
     public void toDrugs(View view)
     {
-        Intent intent = new Intent(this, DrugTopic.class);
+        Intent intent = new Intent(this, DrugInfo.class);
         startActivity(intent);
     }
 
     public void toBully(View view)
     {
-        Intent intent = new Intent(this, BullyTopic.class);
+        Intent intent = new Intent(this, BullyInfo.class);
         startActivity(intent);
     }
 
     public void toRel(View view)
     {
-        Intent intent = new Intent(this, RelTopic.class);
+        Intent intent = new Intent(this, RelInfo.class);
         startActivity(intent);
     }
 }
