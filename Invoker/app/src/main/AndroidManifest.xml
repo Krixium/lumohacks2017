@@ -44,7 +44,10 @@
             android:name=".BullyTopic"
             android:label="Topics"
             android:parentActivityName=".TopicsMenu" />
-        <activity android:name=".IncidentActivities"></activity>
+        <activity android:name=".IncidentActivities" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>

@@ -11,10 +11,8 @@ import java.util.Date;
 
 public class IncidentActivities extends AppCompatActivity {
 
-        private static final String TAG = "IncidentActivity";
-
         private TextView thedate;
-        private Button btngocalendar;
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +20,8 @@ public class IncidentActivities extends AppCompatActivity {
             setContentView(R.layout.activity_main);
             thedate = (TextView) findViewById(R.id.date);
             Date date = get();
+            System.out.print(date.toString());
             thedate.setText(date.toString());
-
         }
 
         public Date get(){
