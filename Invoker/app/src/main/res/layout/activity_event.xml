@@ -32,23 +32,53 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/cardTextTitle"
+                android:id="@+id/eventChild"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp" />
 
             <TextView
-                android:id="@+id/cardTextDesc"
+                android:id="@+id/eventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/eventEvent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/eventEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/eventDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/eventEvent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/eventRank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp" />
 
