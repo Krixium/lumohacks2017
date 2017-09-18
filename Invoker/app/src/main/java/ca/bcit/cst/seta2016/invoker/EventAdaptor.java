@@ -1,6 +1,5 @@
 package ca.bcit.cst.seta2016.invoker;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.widget.TextView;
 import java.util.List;
 
 class EventAdaptor extends RecyclerView.Adapter<EventAdaptor.ViewHolder> {
-    private Context context;
-    private List<Event> list;
+    private List<EventCard> list;
 
-    public EventAdaptor(Context context, List<Event> list) {
-        this.context = context;
+    public EventAdaptor(List<EventCard> list) {
         this.list = list;
     }
 

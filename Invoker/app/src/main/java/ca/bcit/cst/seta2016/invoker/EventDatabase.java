@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Miranda on 9/17/2017.
+ * EventDatabase.java
+ *
+ * Binds the SQLite database to a wrapping java class.
  */
-
 public final class EventDatabase extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
@@ -44,53 +45,62 @@ public final class EventDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addEvent(Event event) {
+    public void addEventCard(EventCard eventCard) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_CHILD, event.getChild());
-        values.put(KEY_DATE, event.getDate());
-        values.put(KEY_EVENT, event.getEvent());
-        values.put(KEY_DESC, event.getDesc());
-        values.put(KEY_RANK, event.getRank());
+        values.put(KEY_CHILD, eventCard.getChild());
+        values.put(KEY_DATE, eventCard.getDate());
+        values.put(KEY_EVENT, eventCard.getEvent());
+        values.put(KEY_DESC, eventCard.getDesc());
+        values.put(KEY_RANK, eventCard.getRank());
 
         db.insert(TABLE_NAME, null, values);
         db.close(); // Closing database connection
     }
 
-    public Event getEvent(int id) {
+    public EventCard getEventCard(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, new String[] { KEY_ID,
                         KEY_CHILD, KEY_DATE, KEY_EVENT, KEY_DESC, KEY_RANK }, KEY_ID + "=?", new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-        Event event = new Event(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
 
-        return event;
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        EventCard eventCard = new EventCard(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4),
+                cursor.getString(5));
+
+        cursor.close();
+        return eventCard;
     }
 
-    public List<Event> getAllEvents() {
-        List<Event> eventList = new ArrayList<Event>();
+    public List<EventCard> getAllEventCards() {
+        List<EventCard> eventCardList = new ArrayList<EventCard>();
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase(); // Might only work with getWritableDatabase
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Event shop = new Event();
-                shop.setID(Integer.parseInt(cursor.getString(0)));
-                shop.setChild(cursor.getString(1));
-                shop.setDate(cursor.getString(2));
-                shop.setEvent(cursor.getString(3));
-                shop.setDesc(cursor.getString(4));
-                shop.setRank(cursor.getString(5));
-
-                eventList.add(shop);
+                EventCard eventCard = new EventCard(
+                        Integer.parseInt(cursor.getString(0)),  // ID
+                        cursor.getString(1),                    // Child
+                        cursor.getString(2),                    // Date
+                        cursor.getString(3),                    // Event
+                        cursor.getString(4),                    // Desc
+                        cursor.getString(5)                     // Rank
+                );
+                eventCardList.add(eventCard);
             } while (cursor.moveToNext());
         }
 
-        return eventList;
+        cursor.close();
+        return eventCardList;
     }
 
     public int getEventsCount() {
@@ -102,26 +112,25 @@ public final class EventDatabase extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
-    public int updateShop(Event event) {
+    public int updateEventCard(EventCard eventCard) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_CHILD, event.getChild());
-        values.put(KEY_DATE, event.getDate());
-        values.put(KEY_EVENT, event.getEvent());
-        values.put(KEY_DESC, event.getDesc());
-        values.put(KEY_RANK, event.getRank());
+
+        values.put(KEY_CHILD, eventCard.getChild());
+        values.put(KEY_DATE, eventCard.getDate());
+        values.put(KEY_EVENT, eventCard.getEvent());
+        values.put(KEY_DESC, eventCard.getDesc());
+        values.put(KEY_RANK, eventCard.getRank());
 
         return db.update(TABLE_NAME, values, KEY_ID + " = ?",
-                new String[]{String.valueOf(event.getID())});
+                new String[]{String.valueOf(eventCard.getID())});
     }
 
 
-    public void deleteShop(Event event) {
+    public void deleteEventCard(EventCard eventCard) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, KEY_ID + " = ?",
-                new String[] { String.valueOf(event.getID()) });
+                new String[] { String.valueOf(eventCard.getID()) });
         db.close();
     }
-
-
 }
