@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,53 +16,89 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MainActivity.java
+ *
+ * The entry point of our program.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    // DON'T TOUCH
     private RecyclerView recyclerView;
-    private GridLayoutManager gridLayoutManager;
     private EventAdaptor adapter;
-    private ItemTouchHelper itemTouchHelper;
     private EventDatabase db;
+    private ItemTouchHelper.SimpleCallback recyclerViewSwipeCallback = new ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
-    // List of data for CardViews
-    private List<Event> event_list;
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            // not used
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            //Remove swiped item from list and notify the RecyclerView
+            final int position = viewHolder.getAdapterPosition();
+            final EventCard removedEventCard = eventCardList.get(position);
+
+            eventCardList.remove(position);
+            db.deleteEventCard(removedEventCard);
+            adapter.notifyItemRemoved(position);
+
+            Snackbar.make(recyclerView, removedEventCard.getEvent() + " was removed.", Snackbar.LENGTH_LONG)
+                    .setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // Re-add the eventCard
+                            addEvent(removedEventCard);
+                        }
+                    }).show();
+        }
+    };
+
+    private List<EventCard> eventCardList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initDataList();
+        initView();
+    }
+
+    /**
+     * Initialize all data related objects.
+     */
+    private void initDataList() {
         db = new EventDatabase(this);
+        eventCardList = db.getAllEventCards();
+    }
 
-        // Creating the list of events
-        event_list = db.getAllEvents();
-
-        // DON'T TOUCH
+    /**
+     * Initialize all view related objects.
+     */
+    private void initView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        gridLayoutManager = new GridLayoutManager(this, 1);
+        // Make a grid for the cards
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new EventAdaptor(this, event_list);
+        // Create the adapter for the data
+        adapter = new EventAdaptor(eventCardList);
         recyclerView.setAdapter(adapter);
-        // End of DON'T TOUCH
 
-        itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        // Reference tool bar
+        // Create the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Reference floating button and assign on click listener
+        // Create the floating action button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,43 +115,26 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Set Layout type
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Set card swipe behaviour
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    ItemTouchHelper.SimpleCallback recyclerViewSwipeCallback = new ItemTouchHelper.SimpleCallback(0,
-            ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            // not used
-            return false;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            //Remove swiped item from list and notify the RecyclerView
-            final int position = viewHolder.getAdapterPosition();
-            final Event event = event_list.get(position);
-
-            event_list.remove(position);
-            db.deleteShop(event);
-            adapter.notifyItemRemoved(position);
-
-            Snackbar.make(recyclerView, event.getChild() + " was removed.", Snackbar.LENGTH_LONG)
-                    .setAction("Undo", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Re-add the event
-                            event_list.add(event);
-                            Toast.makeText(MainActivity.this,
-                                    "child=" + event.getChild() + ", event=" + event.getEvent(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }).show();
-        }
-    };
+    /**
+     * Add a card to the database.
+     *
+     * @param eventCard The element to add to the list.
+     */
+    public void addEvent(EventCard eventCard) {
+        db.addEventCard(eventCard);
+        eventCardList = db.getAllEventCards();
+        adapter.notifyDataSetChanged();
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+    }
 
     @Override
     public void onBackPressed() {
@@ -188,15 +206,7 @@ public class MainActivity extends AppCompatActivity
             String event = intent.getStringExtra("event");
             String desc = intent.getStringExtra("desc");
             String rank = intent.getStringExtra("rank");
-            addEvent(new Event(0, child, date, event, desc, rank));
+            addEvent(new EventCard(0, child, date, event, desc, rank));
         }
-    }
-
-    public void addEvent(Event event) {
-        db.addEvent(event);
-        event_list = db.getAllEvents();
-        adapter.notifyDataSetChanged();
-        finish();
-        startActivity(new Intent(this, MainActivity.class));
     }
 }

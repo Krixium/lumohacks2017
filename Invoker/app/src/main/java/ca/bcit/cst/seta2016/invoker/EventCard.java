@@ -1,15 +1,11 @@
 package ca.bcit.cst.seta2016.invoker;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.Date;
-
 /**
- * Created by Miranda on 9/17/2017.
+ * EventCard.java
+ *
+ * Data class that stores a user described event concerning a child with a date.
  */
-
-public class Event implements Parcelable {
+public class EventCard {
     private int id;
     private String child;
     private String date;
@@ -17,10 +13,7 @@ public class Event implements Parcelable {
     private String desc;
     private String rank;
 
-    public Event() {
-    }
-
-    public Event(int id, String child, String date, String event, String desc, String rank) {
+    public EventCard(int id, String child, String date, String event, String desc, String rank) {
         this.id = id;
         this.child = child;
         this.date = date;
@@ -28,26 +21,6 @@ public class Event implements Parcelable {
         this.desc = desc;
         this.rank = rank;
     }
-
-    protected Event(Parcel in) {
-        child = in.readString();
-        date = in.readString();
-        event = in.readString();
-        desc = in.readString();
-        rank = in.readString();
-    }
-
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
-        @Override
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
-        }
-
-        @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
-        }
-    };
 
     public int getID() {
         return id;
@@ -95,16 +68,5 @@ public class Event implements Parcelable {
 
     public void setRank(String rank) {
         this.rank = rank;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(child);
-        parcel.writeString(event);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 }
