@@ -3,13 +3,7 @@ package ca.bcit.cst.seta2016.invoker;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
-/**
- * Created by Miranda on 9/17/2017.
- */
-
-public class Event implements Parcelable {
+public class EventCard implements Parcelable {
     private int id;
     private String child;
     private String date;
@@ -17,10 +11,7 @@ public class Event implements Parcelable {
     private String desc;
     private String rank;
 
-    public Event() {
-    }
-
-    public Event(int id, String child, String date, String event, String desc, String rank) {
+    public EventCard(int id, String child, String date, String event, String desc, String rank) {
         this.id = id;
         this.child = child;
         this.date = date;
@@ -29,7 +20,7 @@ public class Event implements Parcelable {
         this.rank = rank;
     }
 
-    protected Event(Parcel in) {
+    protected EventCard(Parcel in) {
         child = in.readString();
         date = in.readString();
         event = in.readString();
@@ -37,15 +28,15 @@ public class Event implements Parcelable {
         rank = in.readString();
     }
 
-    public static final Creator<Event> CREATOR = new Creator<Event>() {
+    public static final Creator<EventCard> CREATOR = new Creator<EventCard>() {
         @Override
-        public Event createFromParcel(Parcel in) {
-            return new Event(in);
+        public EventCard createFromParcel(Parcel in) {
+            return new EventCard(in);
         }
 
         @Override
-        public Event[] newArray(int size) {
-            return new Event[size];
+        public EventCard[] newArray(int size) {
+            return new EventCard[size];
         }
     };
 

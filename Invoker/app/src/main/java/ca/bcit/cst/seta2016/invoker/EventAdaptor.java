@@ -11,9 +11,9 @@ import java.util.List;
 
 class EventAdaptor extends RecyclerView.Adapter<EventAdaptor.ViewHolder> {
     private Context context;
-    private List<Event> list;
+    private List<EventCard> list;
 
-    public EventAdaptor(Context context, List<Event> list) {
+    public EventAdaptor(Context context, List<EventCard> list) {
         this.context = context;
         this.list = list;
     }

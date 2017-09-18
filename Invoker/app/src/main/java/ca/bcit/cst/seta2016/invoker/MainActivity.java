@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,7 +19,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity
     private EventDatabase db;
 
     // List of data for CardViews
-    private List<Event> event_list;
+    private List<EventCard> eventCardList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         db = new EventDatabase(this);
 
         // Creating the list of events
-        event_list = db.getAllEvents();
+        eventCardList = db.getAllEvents();
 
         // DON'T TOUCH
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new EventAdaptor(this, event_list);
+        adapter = new EventAdaptor(this, eventCardList);
         recyclerView.setAdapter(adapter);
         // End of DON'T TOUCH
 
@@ -98,21 +96,18 @@ public class MainActivity extends AppCompatActivity
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
             //Remove swiped item from list and notify the RecyclerView
             final int position = viewHolder.getAdapterPosition();
-            final Event event = event_list.get(position);
+            final EventCard removedEventCard = eventCardList.get(position);
 
-            event_list.remove(position);
-            db.deleteShop(event);
+            eventCardList.remove(position);
+            db.deleteEventCard(removedEventCard);
             adapter.notifyItemRemoved(position);
 
-            Snackbar.make(recyclerView, event.getChild() + " was removed.", Snackbar.LENGTH_LONG)
+            Snackbar.make(recyclerView, removedEventCard.getEvent() + " was removed.", Snackbar.LENGTH_LONG)
                     .setAction("Undo", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            // Re-add the event
-                            event_list.add(event);
-                            Toast.makeText(MainActivity.this,
-                                    "child=" + event.getChild() + ", event=" + event.getEvent(),
-                                    Toast.LENGTH_LONG).show();
+                            // Re-add the eventCard
+                            addEvent(removedEventCard);
                         }
                     }).show();
         }
@@ -188,13 +183,13 @@ public class MainActivity extends AppCompatActivity
             String event = intent.getStringExtra("event");
             String desc = intent.getStringExtra("desc");
             String rank = intent.getStringExtra("rank");
-            addEvent(new Event(0, child, date, event, desc, rank));
+            addEvent(new EventCard(0, child, date, event, desc, rank));
         }
     }
 
-    public void addEvent(Event event) {
-        db.addEvent(event);
-        event_list = db.getAllEvents();
+    public void addEvent(EventCard eventCard) {
+        db.addEvent(eventCard);
+        eventCardList = db.getAllEvents();
         adapter.notifyDataSetChanged();
         finish();
         startActivity(new Intent(this, MainActivity.class));
