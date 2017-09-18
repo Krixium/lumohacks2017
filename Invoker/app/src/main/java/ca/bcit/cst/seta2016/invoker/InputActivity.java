@@ -9,8 +9,11 @@ import android.widget.EditText;
 
 public class InputActivity extends AppCompatActivity {
 
-    private EditText textFieldTitle;
-    private EditText textFieldDesc;
+    private EditText eventChild;
+    private EditText eventDate;
+    private EditText eventEvent;
+    private EditText eventDesc;
+    private EditText eventRank;
     private Button buttonAdd;
 
     @Override
@@ -18,16 +21,22 @@ public class InputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
 
-        textFieldTitle = (EditText) findViewById(R.id.inputFieldTitle);
-        textFieldDesc = (EditText) findViewById(R.id.inputFieldDesc);
+        eventChild = (EditText) findViewById(R.id.inputFieldChild);
+        eventDate = (EditText) findViewById(R.id.inputFieldDate);
+        eventEvent = (EditText) findViewById(R.id.inputFieldEvent);
+        eventDesc = (EditText) findViewById(R.id.inputFieldDesc);
+        eventRank = (EditText) findViewById(R.id.inputFieldRank);
 
         buttonAdd = (Button) findViewById(R.id.buttonSubmit);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(InputActivity.this, MainActivity.class);
-                intent.putExtra("title", textFieldTitle.getText().toString());
-                intent.putExtra("desc", textFieldDesc.getText().toString());
+                intent.putExtra("child", eventChild.getText().toString());
+                intent.putExtra("date", eventDate.getText().toString());
+                intent.putExtra("event", eventEvent.getText().toString());
+                intent.putExtra("desc", eventDesc.getText().toString());
+                intent.putExtra("rank", eventRank.getText().toString());
                 startActivity(intent);
             }
         });
