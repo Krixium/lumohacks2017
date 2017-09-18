@@ -9,6 +9,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * EventDatabase.java
+ *
+ * Binds the SQLite database to a wrapping java class.
+ */
 public final class EventDatabase extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;

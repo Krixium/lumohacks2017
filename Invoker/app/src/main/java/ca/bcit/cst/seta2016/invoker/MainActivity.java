@@ -16,74 +16,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 
 import java.util.List;
 
+/**
+ * MainActivity.java
+ *
+ * The entry point of our program.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    // DON'T TOUCH
     private RecyclerView recyclerView;
-    private GridLayoutManager gridLayoutManager;
     private EventAdaptor adapter;
-    private ItemTouchHelper itemTouchHelper;
     private EventDatabase db;
-
-    // List of data for CardViews
-    private List<EventCard> eventCardList;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        db = new EventDatabase(this);
-
-        // Creating the list of events
-        eventCardList = db.getAllEvents();
-
-        // DON'T TOUCH
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        gridLayoutManager = new GridLayoutManager(this, 1);
-        recyclerView.setLayoutManager(gridLayoutManager);
-
-        adapter = new EventAdaptor(this, eventCardList);
-        recyclerView.setAdapter(adapter);
-        // End of DON'T TOUCH
-
-        itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        // Reference tool bar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        // Reference floating button and assign on click listener
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, InputActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Makes the Navigation Drawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        // Set Layout type
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    ItemTouchHelper.SimpleCallback recyclerViewSwipeCallback = new ItemTouchHelper.SimpleCallback(0,
+    private ItemTouchHelper.SimpleCallback recyclerViewSwipeCallback = new ItemTouchHelper.SimpleCallback(
+            0,
             ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
         @Override
@@ -112,6 +60,81 @@ public class MainActivity extends AppCompatActivity
                     }).show();
         }
     };
+
+    private List<EventCard> eventCardList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        initDataList();
+        initView();
+    }
+
+    /**
+     * Initialize all data related objects.
+     */
+    private void initDataList() {
+        db = new EventDatabase(this);
+        eventCardList = db.getAllEvents();
+    }
+
+    /**
+     * Initialize all view related objects.
+     */
+    private void initView() {
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        // Make a grid for the cards
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        // Create the adapter for the data
+        adapter = new EventAdaptor(this, eventCardList);
+        recyclerView.setAdapter(adapter);
+
+        // Create the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Create the floating action button
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, InputActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Makes the Navigation Drawer
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Set card swipe behaviour
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(recyclerViewSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    /**
+     * Add a card to the database.
+     *
+     * @param eventCard The element to add to the list.
+     */
+    public void addEvent(EventCard eventCard) {
+        db.addEvent(eventCard);
+        eventCardList = db.getAllEvents();
+        adapter.notifyDataSetChanged();
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+    }
 
     @Override
     public void onBackPressed() {
@@ -185,13 +208,5 @@ public class MainActivity extends AppCompatActivity
             String rank = intent.getStringExtra("rank");
             addEvent(new EventCard(0, child, date, event, desc, rank));
         }
-    }
-
-    public void addEvent(EventCard eventCard) {
-        db.addEvent(eventCard);
-        eventCardList = db.getAllEvents();
-        adapter.notifyDataSetChanged();
-        finish();
-        startActivity(new Intent(this, MainActivity.class));
     }
 }
