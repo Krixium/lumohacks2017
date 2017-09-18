@@ -14,11 +14,11 @@ public class FeedbackActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
 
-        final EditText to = (EditText) findViewById(R.id.sentTo);
-        final EditText subject = (EditText) findViewById(R.id.subject);
-        final EditText message = (EditText) findViewById(R.id.emailText);
+        final EditText to = findViewById(R.id.sentTo);
+        final EditText subject = findViewById(R.id.subject);
+        final EditText message = findViewById(R.id.emailText);
 
-        Button sentEmail = (Button)findViewById(R.id.submitButton);
+        Button sentEmail = findViewById(R.id.submitButton);
         sentEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
