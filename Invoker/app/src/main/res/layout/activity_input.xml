@@ -7,12 +7,12 @@
     tools:context="ca.bcit.cst.seta2016.invoker.InputActivity">
 
     <EditText
-        android:id="@+id/inputFieldTitle"
+        android:id="@+id/inputFieldChild"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/inputFieldTitle"
+        android:hint="Child Name"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
@@ -22,19 +22,64 @@
         android:layout_marginTop="8dp" />
 
     <EditText
-        android:id="@+id/inputFieldDesc"
+        android:id="@+id/inputFieldDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/inputFieldDesc"
+        android:hint="Date"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginTop="18dp"
-        app:layout_constraintTop_toBottomOf="@+id/inputFieldTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/inputFieldChild" />
+
+    <EditText
+        android:id="@+id/inputFieldEvent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Event"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@+id/inputFieldDate" />
+
+    <EditText
+        android:id="@+id/inputFieldDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Description"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@+id/inputFieldEvent" />
+
+    <EditText
+        android:id="@+id/inputFieldRank"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Rank"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@+id/inputFieldDesc" />
 
     <Button
         android:id="@+id/buttonSubmit"

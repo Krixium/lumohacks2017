@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CardActivity" />
+        <activity android:name=".EventActivity" />
         <activity
             android:name=".CalendarActivity"
             android:label="Calendar"
@@ -46,6 +46,19 @@
         <activity
             android:name=".BullyInfo"
             android:label="@string/topicMenuBully"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".FeedbackActivity"
+            android:label="Feedback"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".InputActivity"
+            android:label="Input"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity" />
     </application>

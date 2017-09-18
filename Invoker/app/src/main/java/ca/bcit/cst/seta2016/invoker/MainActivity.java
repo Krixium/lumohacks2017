@@ -2,7 +2,6 @@ package ca.bcit.cst.seta2016.invoker;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,19 +29,22 @@ public class MainActivity extends AppCompatActivity
     // DON'T TOUCH
     private RecyclerView recyclerView;
     private GridLayoutManager gridLayoutManager;
-    private CardDataAdaptor adapter;
+    private EventAdaptor adapter;
     private ItemTouchHelper itemTouchHelper;
+    private EventDatabase db;
 
     // List of data for CardViews
-    private ArrayList<CardData> data_list;
+    private List<Event> event_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Creating the list of data
-        data_list = new ArrayList<>();
+        db = new EventDatabase(this);
+
+        // Creating the list of events
+        event_list = db.getAllEvents();
 
         // DON'T TOUCH
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter = new CardDataAdaptor(this, data_list);
+        adapter = new EventAdaptor(this, event_list);
         recyclerView.setAdapter(adapter);
         // End of DON'T TOUCH
 
@@ -96,19 +98,20 @@ public class MainActivity extends AppCompatActivity
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
             //Remove swiped item from list and notify the RecyclerView
             final int position = viewHolder.getAdapterPosition();
-            final CardData card = data_list.get(position);
+            final Event event = event_list.get(position);
 
-            data_list.remove(position);
+            event_list.remove(position);
+            db.deleteShop(event);
             adapter.notifyItemRemoved(position);
 
-            Snackbar.make(recyclerView, card.getTextTitle() + " was removed.", Snackbar.LENGTH_LONG)
+            Snackbar.make(recyclerView, event.getChild() + " was removed.", Snackbar.LENGTH_LONG)
                     .setAction("Undo", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            // Re-add the card
-                            data_list.add(card);
+                            // Re-add the event
+                            event_list.add(event);
                             Toast.makeText(MainActivity.this,
-                                    "title=" + card.getTextTitle() + ", desc=" + card.getTextDesc(),
+                                    "child=" + event.getChild() + ", event=" + event.getEvent(),
                                     Toast.LENGTH_LONG).show();
                         }
                     }).show();
@@ -166,6 +169,8 @@ public class MainActivity extends AppCompatActivity
             intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_feedback) {
+            intent = new Intent(this, FeedbackActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -177,27 +182,21 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         Intent intent = getIntent();
 
-        if (intent.hasExtra("title") && intent.hasExtra("desc")) {
-            String title = intent.getStringExtra("title");
+        if (intent.hasExtra("child") && intent.hasExtra("date") && intent.hasExtra("event") && intent.hasExtra("desc") && intent.hasExtra("rank")) {
+            String child = intent.getStringExtra("child");
+            String date = intent.getStringExtra("date");
+            String event = intent.getStringExtra("event");
             String desc = intent.getStringExtra("desc");
-            addCardData(new CardData(title, desc));
+            String rank = intent.getStringExtra("rank");
+            addEvent(new Event(0, child, date, event, desc, rank));
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("list", data_list);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle inState) {
-        super.onRestoreInstanceState(inState);
-        data_list = inState.getParcelableArrayList("list");
-    }
-
-    public void addCardData(CardData data) {
-        data_list.add(data);
+    public void addEvent(Event event) {
+        db.addEvent(event);
+        event_list = db.getAllEvents();
         adapter.notifyDataSetChanged();
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
     }
 }
