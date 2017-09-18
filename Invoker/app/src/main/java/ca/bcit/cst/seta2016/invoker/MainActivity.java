@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(gridLayoutManager);
 
         // Create the adapter for the data
-        adapter = new EventAdaptor(this, eventCardList);
+        adapter = new EventAdaptor(eventCardList);
         recyclerView.setAdapter(adapter);
 
         // Create the toolbar
