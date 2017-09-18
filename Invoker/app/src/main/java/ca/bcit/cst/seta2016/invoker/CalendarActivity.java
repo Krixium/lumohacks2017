@@ -25,9 +25,9 @@ public class CalendarActivity extends AppCompatActivity {
                 date.putInt("Day", dayOfMonth);
                 date.putInt("Month", month);
                 date.putInt("Year", year);
-                Intent in=new Intent(CalendarActivity.this,IncidentActivities.class);
-                in.putExtras(date);
-                startActivity(in);
+                Intent intent = new Intent(CalendarActivity.this, IncidentActivity.class);
+                intent.putExtras(date);
+                startActivity(intent);
             }
         });
     }
