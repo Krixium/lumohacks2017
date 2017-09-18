@@ -45,7 +45,7 @@ public final class EventDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addEvent(EventCard eventCard) {
+    public void addEventCard(EventCard eventCard) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_CHILD, eventCard.getChild());
@@ -78,7 +78,7 @@ public final class EventDatabase extends SQLiteOpenHelper {
         return eventCard;
     }
 
-    public List<EventCard> getAllEvents() {
+    public List<EventCard> getAllEventCards() {
         List<EventCard> eventCardList = new ArrayList<EventCard>();
 
         String selectQuery = "SELECT * FROM " + TABLE_NAME;

@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
      */
     private void initDataList() {
         db = new EventDatabase(this);
-        eventCardList = db.getAllEvents();
+        eventCardList = db.getAllEventCards();
     }
 
     /**
@@ -129,8 +129,8 @@ public class MainActivity extends AppCompatActivity
      * @param eventCard The element to add to the list.
      */
     public void addEvent(EventCard eventCard) {
-        db.addEvent(eventCard);
-        eventCardList = db.getAllEvents();
+        db.addEventCard(eventCard);
+        eventCardList = db.getAllEventCards();
         adapter.notifyDataSetChanged();
         finish();
         startActivity(new Intent(this, MainActivity.class));
